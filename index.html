@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Joke Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      font-family: 'Comic Neue', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      transition: background 1s;
+    }
+
+    h1 {
+      color: #222;
+      text-shadow: 2px 2px #fff;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    #joke {
+      font-size: 20px;
+      color: #333;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      margin: 20px 0;
+      min-height: 80px;
+      width: 90%;
+      max-width: 500px;
+      transition: all 0.3s;
+    }
+
+    #joke:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid #007BFF;
+      width: 300px;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #ff6f61;
+      box-shadow: 0 0 10px rgba(255,111,97,0.5);
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      margin: 5px;
+      background: linear-gradient(45deg, #007BFF, #00C6FF);
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Random Joke Generator</h1>
+
+  <div id="joke">Click "Tell me a joke" to start!</div>
+  <button onclick="generateJoke()">Tell me a joke</button>
+
+  <h3>Add your own joke:</h3>
+  <input type="text" id="userJoke" placeholder="Type your joke here...">
+  <button onclick="addJoke()">Add Joke</button>
+  <div id="message"></div>
+
+  <script>
+    const jokes = [
+      "Why don’t skeletons ever go trick or treating? Because they have no body to go with.",
+      "Why did the scarecrow win an award? Because he was outstanding in his field!",
+      "I told my computer I needed a break, and it said: 'No problem, I’ll go to sleep.'",
+      "Why can’t your nose be 12 inches long? Because then it would be a foot!",
+      "Parallel lines have so much in common… it’s a shame they’ll never meet."
+    ];
+
+    const bannedWords = ["sex", "fuck", "shit", "bitch", "ass", "dick", "pussy"]; // lista loših reči
+
+    function generateJoke() {
+      const randomIndex = Math.floor(Math.random() * jokes.length);
+      document.getElementById("joke").innerText = jokes[randomIndex];
+    }
+
+    function addJoke() {
+      const input = document.getElementById("userJoke").value.trim();
+      const message = document.getElementById("message");
+
+      if (!input) {
+        message.style.color = "red";
+        message.innerText = "You must type a joke!";
+        return;
+      }
+
+      const lowerInput = input.toLowerCase();
+      for (let word of bannedWords) {
+        if (lowerInput.includes(word)) {
+          message.style.color = "red";
+          message.innerText = "No bad words allowed!";
+          return;
+        }
+      }
+
+      jokes.push(input);
+      message.style.color = "green";
+      message.innerText = "Joke added successfully!";
+      document.getElementById("userJoke").value = "";
+    }
+  </script>
+</body>
+</html>
